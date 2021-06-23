@@ -1,3 +1,4 @@
+extra/
 .idea/
 /web/node_modules
 /web/dist
@@ -26,5 +27,6 @@ go.sum
 /server/log/
 /server/gva
 /server/latest_log
+/server/*.exe
 
 *.iml

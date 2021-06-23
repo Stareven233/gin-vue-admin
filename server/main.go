@@ -1,5 +1,9 @@
 package main
 
+// todo 导入表并建立相应关联
+// todo 研究验证码、权限等等的实现
+// todo 直接将这份管理后台作为作业
+
 import (
 	"gin-vue-admin/core"
 	"gin-vue-admin/global"
