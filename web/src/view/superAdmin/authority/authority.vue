@@ -74,9 +74,6 @@
         <el-tab-pane label="角色菜单">
           <Menus ref="menus" :row="activeRow" />
         </el-tab-pane>
-        <el-tab-pane label="角色api">
-          <apis ref="apis" :row="activeRow" />
-        </el-tab-pane>
         <el-tab-pane label="资源权限">
           <Datas ref="datas" :authority="tableData" :row="activeRow" />
         </el-tab-pane>
@@ -97,7 +94,6 @@ import {
 } from '@/api/authority'
 
 import Menus from '@/view/superAdmin/authority/components/menus'
-import Apis from '@/view/superAdmin/authority/components/apis'
 import Datas from '@/view/superAdmin/authority/components/datas'
 
 import infoList from '@/mixins/infoList'
@@ -105,7 +101,6 @@ export default {
   name: 'Authority',
   components: {
     Menus,
-    Apis,
     Datas
   },
   mixins: [infoList],
@@ -158,7 +153,7 @@ export default {
   },
   methods: {
     autoEnter(activeName, oldActiveName) {
-      const paneArr = ['menus', 'apis', 'datas']
+      const paneArr = ['menus', 'datas']
       if (oldActiveName) {
         if (this.$refs[paneArr[oldActiveName]].needConfirm) {
           this.$refs[paneArr[oldActiveName]].enterAndNext()

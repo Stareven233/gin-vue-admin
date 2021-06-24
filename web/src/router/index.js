@@ -16,11 +16,6 @@ const baseRouters = [
     redirect: '/login'
   },
   {
-    path: '/init',
-    name: 'Init',
-    component: () => import('@/view/init/index')
-  },
-  {
     path: '/login',
     name: 'Login',
     component: () => import('@/view/login/index')

@@ -2,7 +2,7 @@
   <div class="bottom-info">
     <div>
       <span>
-        <a href="https://github.com/Stareven233/gin-vue-admin/tree/cyakka_go">{{ $GIN_VUE_ADMIN.appName }}</a>
+        {{ $GIN_VUE_ADMIN.appName }}
       </span>
       <el-divider direction="vertical" />
       <span>Copyright</span>
