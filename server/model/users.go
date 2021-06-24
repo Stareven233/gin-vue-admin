@@ -6,7 +6,6 @@ import (
 	"time"
 )
 
-// 如果含有time.Time 请自行import time包
 type Users struct {
       global.GVA_MODEL
       Username  string `json:"username" form:"username" gorm:"column:username;comment:;type:varchar(20);"`
@@ -19,7 +18,13 @@ type Users struct {
       LastSeen  time.Time `json:"lastSeen" form:"lastSeen" gorm:"column:last_seen;comment:;type:datetime;"`
       Permissions  int `json:"permissions" form:"permissions" gorm:"column:permissions;comment:;type:int;size:10;"`
       Coins  int `json:"coins" form:"coins" gorm:"column:coins;comment:;type:int;size:10;"`
+      Videos []Video `json:"videos" gorm:"foreignKey:AuthorId"`
+      VLike []Video `json:"v_like" gorm:"many2many:v_likes;"`
+      VCoin []Video `json:"v_coin" gorm:"many2many:v_coins;"`
+      VCollect []Video `json:"v_collect" gorm:"many2many:v_collects;"`
+      Danmaku []Danmaku `json:"danmaku" gorm:"foreignKey:AuthorId"`
 }
+// many2many指定的名字将作为关联表创建
 
 
 func (Users) TableName() string {

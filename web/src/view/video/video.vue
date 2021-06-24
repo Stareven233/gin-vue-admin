@@ -2,7 +2,7 @@
   <div>
     <div class="search-term">
       <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
-        <el-form-item label="title字段">
+        <el-form-item label="标题">
           <el-input placeholder="搜索条件" v-model="searchInfo.title" />
         </el-form-item>                          
         <el-form-item>
@@ -36,18 +36,18 @@
       <el-table-column label="日期" width="180">
         <template slot-scope="scope">{{ scope.row.CreatedAt|formatDate }}</template>
       </el-table-column>
-      <el-table-column label="title字段" prop="title" width="120" /> 
-      <el-table-column label="file字段" prop="file" width="120" /> 
-      <el-table-column label="date字段" prop="date" width="120" /> 
-      <el-table-column label="authorId字段" prop="authorId" width="120" /> 
-      <el-table-column label="type字段" prop="type" width="120" /> 
-      <el-table-column label="face字段" prop="face" width="120" /> 
-      <el-table-column label="desc字段" prop="desc" width="120" /> 
-      <el-table-column label="coin字段" prop="coin" width="120" /> 
-      <el-table-column label="collect字段" prop="collect" width="120" /> 
-      <el-table-column label="like字段" prop="like" width="120" /> 
-      <el-table-column label="status字段" prop="status" width="120" /> 
-      <el-table-column label="inspector字段" prop="inspector" width="120" /> <el-table-column label="按钮组">
+      <el-table-column label="标题" prop="title" width="120" />
+      <el-table-column label="文件路径" prop="file" width="120" />
+      <el-table-column label="发布日期" prop="date" width="120" />
+      <el-table-column label="作者id" prop="authorId" width="120" />
+      <el-table-column label="类型" prop="type" width="120" />
+      <el-table-column label="封面" prop="face" width="120" />
+      <el-table-column label="简介" prop="desc" width="120" />
+      <el-table-column label="硬币数" prop="coin" width="120" />
+      <el-table-column label="收藏数" prop="collect" width="120" />
+      <el-table-column label="点赞数" prop="like" width="120" />
+      <el-table-column label="审核状态" prop="status" width="120" />
+      <el-table-column label="审核者" prop="inspector" width="120" /> <el-table-column label="按钮组">
         <template slot-scope="scope">
           <el-button size="small" type="primary" icon="el-icon-edit" class="table-button" @click="updateVideo(scope.row)">变更</el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteRow(scope.row)">删除</el-button>
@@ -66,51 +66,51 @@
     />
     <el-dialog :before-close="closeDialog" :visible.sync="dialogFormVisible" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
-        <el-form-item label="title字段:">
+        <el-form-item label="标题:">
       
           <el-input v-model="formData.title" clearable placeholder="请输入" />
       </el-form-item>
-        <el-form-item label="file字段:">
+        <el-form-item label="文件路径:">
       
           <el-input v-model="formData.file" clearable placeholder="请输入" />
       </el-form-item>
-        <el-form-item label="date字段:">
+        <el-form-item label="发布日期:">
       
           <el-date-picker type="date" placeholder="选择日期" v-model="formData.date" clearable />
        </el-form-item>
-        <el-form-item label="authorId字段:">
+        <el-form-item label="作者id:">
       
           <el-input v-model.number="formData.authorId" clearable placeholder="请输入" />
       </el-form-item>
-        <el-form-item label="type字段:">
+        <el-form-item label="类型:">
       
           <el-input v-model.number="formData.type" clearable placeholder="请输入" />
       </el-form-item>
-        <el-form-item label="face字段:">
+        <el-form-item label="封面:">
       
           <el-input v-model="formData.face" clearable placeholder="请输入" />
       </el-form-item>
-        <el-form-item label="desc字段:">
+        <el-form-item label="简介:">
       
           <el-input v-model="formData.desc" clearable placeholder="请输入" />
       </el-form-item>
-        <el-form-item label="coin字段:">
+        <el-form-item label="硬币数:">
       
           <el-input v-model.number="formData.coin" clearable placeholder="请输入" />
       </el-form-item>
-        <el-form-item label="collect字段:">
+        <el-form-item label="收藏数:">
       
           <el-input v-model.number="formData.collect" clearable placeholder="请输入" />
       </el-form-item>
-        <el-form-item label="like字段:">
+        <el-form-item label="点赞数:">
       
           <el-input v-model.number="formData.like" clearable placeholder="请输入" />
       </el-form-item>
-        <el-form-item label="status字段:">
+        <el-form-item label="审核状态:">
       
           <el-input v-model.number="formData.status" clearable placeholder="请输入" />
       </el-form-item>
-        <el-form-item label="inspector字段:">
+        <el-form-item label="审核者:">
       
           <el-input v-model.number="formData.inspector" clearable placeholder="请输入" />
       </el-form-item>

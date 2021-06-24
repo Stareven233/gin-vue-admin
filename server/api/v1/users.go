@@ -1,13 +1,14 @@
 package v1
 
 import (
+	"fmt"
 	"gin-vue-admin/global"
-    "gin-vue-admin/model"
-    "gin-vue-admin/model/request"
-    "gin-vue-admin/model/response"
-    "gin-vue-admin/service"
-    "github.com/gin-gonic/gin"
-    "go.uber.org/zap"
+	"gin-vue-admin/model"
+	"gin-vue-admin/model/request"
+	"gin-vue-admin/model/response"
+	"gin-vue-admin/service"
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 // @Tags Users
@@ -97,6 +98,7 @@ func UpdateUsers(c *gin.Context) {
 func FindUsers(c *gin.Context) {
 	var users model.Users
 	_ = c.ShouldBindQuery(&users)
+	// 如http://localhost:8888/users/findUsers?ID=2，ID居然是区分大小写的
 	if err, reusers := service.GetUsers(users.ID); err != nil {
         global.GVA_LOG.Error("查询失败!", zap.Any("err", err))
 		response.FailWithMessage("查询失败", c)
@@ -127,4 +129,37 @@ func GetUsersList(c *gin.Context) {
             PageSize: pageInfo.PageSize,
         }, "获取成功", c)
     }
+}
+
+func GetUserByAssociation(c *gin.Context) {
+	var user model.Users
+	_ = c.ShouldBindQuery(&user)
+	if err, reuser := service.GetUsers(user.ID); err != nil {
+		global.GVA_LOG.Error("查询失败!", zap.Any("err", err))
+		response.FailWithMessage("查询失败", c)
+	} else {
+		fmt.Printf("GetUserByAssociation user: %v\n", user)
+		ass := global.GVA_DB.Model(&reuser).Association("VCollect")
+
+		err2 := ass.Find(&reuser.VCollect)
+		cnt := ass.Count()
+		//err1, v := service.GetVideo(205)
+		//err1 = ass.Append(&v)
+		//cnt = ass.Count()
+		//err2 := global.GVA_DB.Model(&reuser).Association("Videos").Find(&reuser.Videos)
+		fmt.Println(err2, cnt)
+		response.OkWithData(gin.H{"user": reuser}, c)
+	}
+}
+
+func GetUserByPreload(c *gin.Context) {
+	var user model.Users
+	var user1 []model.Users
+	_ = c.ShouldBindQuery(&user)
+	fmt.Printf("GetUserByPreload user: %v\n", user)
+	//err1 := global.GVA_DB.Preload("Danmaku").Preload("Videos").nl
+	err1 := global.GVA_DB.Preload("VCollect").Preload("VLike").Preload("VCoin").Find(&user1)
+	//where里限制的是最终reuser的id
+	fmt.Println(err1)
+	response.OkWithData(gin.H{"user": user1}, c)
 }

@@ -1,15 +1,12 @@
 <template>
   <div>
     <div class="search-term">
-      <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
-        <el-form-item label="用户名">
-          <el-input v-model="searchInfo.username" placeholder="搜索条件" />
-        </el-form-item>
+      <el-form :inline="true" :model="searchInfo" class="demo-form-inline">              
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="openDialog">新增用户</el-button>
+          <el-button type="primary" @click="openDialog">新增评论</el-button>
         </el-form-item>
         <el-form-item>
           <el-popover v-model="deleteVisible" placement="top" width="160">
@@ -36,18 +33,19 @@
       <el-table-column label="日期" width="180">
         <template slot-scope="scope">{{ scope.row.CreatedAt|formatDate }}</template>
       </el-table-column>
-      <el-table-column label="用户名" prop="username" width="120" />
-      <el-table-column label="密码" prop="password" width="120" />
-      <el-table-column label="邮箱" prop="email" width="120" />
-      <el-table-column label="用户头像" prop="avatar" width="120" />
-      <el-table-column label="昵称" prop="nickname" width="120" />
-      <el-table-column label="用户简介" prop="aboutMe" width="120" />
-      <el-table-column label="注册时间" prop="memberSince" width="120" />
-      <el-table-column label="最近登录" prop="lastSeen" width="120" />
-      <el-table-column label="权限" prop="permissions" width="120" />
-      <el-table-column label="硬币" prop="coins" width="120" /> <el-table-column label="按钮组">
+      <el-table-column label="内容" prop="body" width="120" /> 
+      <el-table-column label="日期" prop="date" width="120" /> 
+      <el-table-column label="屏蔽" prop="disabled" width="120">
+        <template slot-scope="scope">{{scope.row.disabled|formatBoolean}}</template>
+      </el-table-column>
+      <el-table-column label="发布者id" prop="authorId" width="120" /> 
+      <el-table-column label="视频id" prop="videoId" width="120" /> 
+      <el-table-column label="举报者id" prop="tipUser" width="120" /> 
+      <el-table-column label="被举报" prop="tipped" width="120">
+        <template slot-scope="scope">{{scope.row.tipped|formatBoolean}}</template>
+      </el-table-column><el-table-column label="按钮组">
         <template slot-scope="scope">
-          <el-button size="small" type="primary" icon="el-icon-edit" class="table-button" @click="updateUsers(scope.row)">变更</el-button>
+          <el-button size="small" type="primary" icon="el-icon-edit" class="table-button" @click="updateComment(scope.row)">变更</el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteRow(scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -64,47 +62,35 @@
     />
     <el-dialog :before-close="closeDialog" :visible.sync="dialogFormVisible" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
-        <el-form-item label="用户名:">
-
-          <el-input v-model="formData.username" clearable placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="密码:">
-
-          <el-input v-model="formData.password" clearable placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="邮箱:">
-
-          <el-input v-model="formData.email" clearable placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="用户头像:">
-
-          <el-input v-model="formData.avatar" clearable placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="昵称:">
-
-          <el-input v-model="formData.nickname" clearable placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="用户简介:">
-
-          <el-input v-model="formData.aboutMe" clearable placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="注册时间:">
-
-          <el-date-picker v-model="formData.memberSince" type="date" placeholder="选择日期" clearable />
-        </el-form-item>
-        <el-form-item label="最近登录:">
-
-          <el-date-picker v-model="formData.lastSeen" type="date" placeholder="选择日期" clearable />
-        </el-form-item>
-        <el-form-item label="权限:">
-
-          <el-input v-model.number="formData.permissions" clearable placeholder="请输入" />
-        </el-form-item>
-        <el-form-item label="硬币:">
-
-          <el-input v-model.number="formData.coins" clearable placeholder="请输入" />
-        </el-form-item>
-      </el-form>
+        <el-form-item label="内容:">
+      
+          <el-input v-model="formData.body" clearable placeholder="请输入" />
+      </el-form-item>
+        <el-form-item label="日期:">
+      
+          <el-date-picker type="date" placeholder="选择日期" v-model="formData.date" clearable />
+       </el-form-item>
+        <el-form-item label="屏蔽:">
+      
+          <el-switch active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" v-model="formData.disabled" clearable ></el-switch>
+      </el-form-item>
+        <el-form-item label="发布者id:">
+      
+          <el-input v-model.number="formData.authorId" clearable placeholder="请输入" />
+      </el-form-item>
+        <el-form-item label="视频id:">
+      
+          <el-input v-model.number="formData.videoId" clearable placeholder="请输入" />
+      </el-form-item>
+        <el-form-item label="举报者id:">
+      
+          <el-input v-model.number="formData.tipUser" clearable placeholder="请输入" />
+      </el-form-item>
+        <el-form-item label="被举报:">
+      
+          <el-switch active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" v-model="formData.tipped" clearable ></el-switch>
+      </el-form-item>
+     </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="closeDialog">取 消</el-button>
         <el-button type="primary" @click="enterDialog">确 定</el-button>
@@ -115,22 +101,43 @@
 
 <script>
 import {
-  createUsers,
-  deleteUsers,
-  deleteUsersByIds,
-  updateUsers,
-  findUsers,
-  getUsersList
-} from '@/api/users' //  此处请自行替换地址
+  createComment,
+  deleteComment,
+  deleteCommentByIds,
+  updateComment,
+  findComment,
+  getCommentList
+} from '@/api/comment' //  此处请自行替换地址
 import { formatTimeToStr } from '@/utils/date'
 import infoList from '@/mixins/infoList'
 export default {
-  name: 'Users',
+  name: 'Comment',
+  mixins: [infoList],
+  data() {
+    return {
+      listApi: getCommentList,
+      dialogFormVisible: false,
+      type: '',
+      deleteVisible: false,
+      multipleSelection: [],
+      
+      formData: {
+        body: '',
+          date: new Date(),
+          disabled: false,
+          authorId: 0,
+          videoId: 0,
+          tipUser: 0,
+          tipped: false,
+          
+      }
+    }
+  },
   filters: {
     formatDate: function(time) {
       if (time !== null && time !== '') {
-        var date = new Date(time)
-        return formatTimeToStr(date, 'yyyy-MM-dd hh:mm:ss')
+        var date = new Date(time);
+        return formatTimeToStr(date, 'yyyy-MM-dd hh:mm:ss');
       } else {
         return ''
       }
@@ -143,38 +150,21 @@ export default {
       }
     }
   },
-  mixins: [infoList],
-  data() {
-    return {
-      listApi: getUsersList,
-      dialogFormVisible: false,
-      type: '',
-      deleteVisible: false,
-      multipleSelection: [],
-
-      formData: {
-        username: '',
-        password: '',
-        email: '',
-        avatar: '',
-        nickname: '',
-        aboutMe: '',
-        memberSince: new Date(),
-        lastSeen: new Date(),
-        permissions: 0,
-        coins: 0
-
-      }
-    }
-  },
   async created() {
     await this.getTableData()
+    
   },
   methods: {
   // 条件搜索前端看此方法
     onSubmit() {
       this.page = 1
-      this.pageSize = 10
+      this.pageSize = 10  
+      if (this.searchInfo.disabled === ""){
+        this.searchInfo.disabled=null
+      }     
+      if (this.searchInfo.tipped === ""){
+        this.searchInfo.tipped=null
+      }  
       this.getTableData()
     },
     handleSelectionChange(val) {
@@ -186,7 +176,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.deleteUsers(row)
+        this.deleteComment(row)
       })
     },
     async onDelete() {
@@ -202,7 +192,7 @@ export default {
         this.multipleSelection.map(item => {
           ids.push(item.ID)
         })
-      const res = await deleteUsersByIds({ ids })
+      const res = await deleteCommentByIds({ ids })
       if (res.code === 0) {
         this.$message({
           type: 'success',
@@ -215,38 +205,35 @@ export default {
         this.getTableData()
       }
     },
-    async updateUsers(row) {
-      const res = await findUsers({ ID: row.ID })
+    async updateComment(row) {
+      const res = await findComment({ ID: row.ID })
       this.type = 'update'
       if (res.code === 0) {
-        this.formData = res.data.reusers
+        this.formData = res.data.recomment
         this.dialogFormVisible = true
       }
     },
     closeDialog() {
       this.dialogFormVisible = false
       this.formData = {
-        username: '',
-        password: '',
-        email: '',
-        avatar: '',
-        nickname: '',
-        aboutMe: '',
-        memberSince: new Date(),
-        lastSeen: new Date(),
-        permissions: 0,
-        coins: 0
-
+        body: '',
+          date: new Date(),
+          disabled: false,
+          authorId: 0,
+          videoId: 0,
+          tipUser: 0,
+          tipped: false,
+          
       }
     },
-    async deleteUsers(row) {
-      const res = await deleteUsers({ ID: row.ID })
+    async deleteComment(row) {
+      const res = await deleteComment({ ID: row.ID })
       if (res.code === 0) {
         this.$message({
           type: 'success',
           message: '删除成功'
         })
-        if (this.tableData.length === 1 && this.page > 1) {
+        if (this.tableData.length === 1 && this.page > 1 ) {
           this.page--
         }
         this.getTableData()
@@ -255,14 +242,14 @@ export default {
     async enterDialog() {
       let res
       switch (this.type) {
-        case 'create':
-          res = await createUsers(this.formData)
+        case "create":
+          res = await createComment(this.formData)
           break
-        case 'update':
-          res = await updateUsers(this.formData)
+        case "update":
+          res = await updateComment(this.formData)
           break
         default:
-          res = await createUsers(this.formData)
+          res = await createComment(this.formData)
           break
       }
       if (res.code === 0) {
@@ -278,7 +265,7 @@ export default {
       this.type = 'create'
       this.dialogFormVisible = true
     }
-  }
+  },
 }
 </script>
 

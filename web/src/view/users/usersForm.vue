@@ -13,7 +13,7 @@
         <el-input v-model="formData.email" clearable placeholder="请输入" />
       </el-form-item>
 
-      <el-form-item label="用户头像:">
+      <el-form-item label="头像:">
         <el-input v-model="formData.avatar" clearable placeholder="请输入" />
       </el-form-item>
 
@@ -21,7 +21,7 @@
         <el-input v-model="formData.nickname" clearable placeholder="请输入" />
       </el-form-item>
 
-      <el-form-item label="用户简介:">
+      <el-form-item label="简介:">
         <el-input v-model="formData.aboutMe" clearable placeholder="请输入" />
       </el-form-item>
 
@@ -30,7 +30,7 @@
         <el-date-picker v-model="formData.memberSince" type="date" placeholder="选择日期" clearable />
       </el-form-item>
 
-      <el-form-item label="最近登录时间:">
+      <el-form-item label="最近登录:">
 
         <el-date-picker v-model="formData.lastSeen" type="date" placeholder="选择日期" clearable />
       </el-form-item>

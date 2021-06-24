@@ -26,6 +26,7 @@ module.exports = {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: { // 需要代理的路径   例如 '/api'
         target: `${process.env.VUE_APP_BASE_PATH}:${process.env.VUE_APP_SERVER_PORT}/`, // 代理到 目标路径
+        // process.env 读取目录下 .env开头的环境变量
         changeOrigin: true,
         pathRewrite: { // 修改路径数据
           ['^' + process.env.VUE_APP_BASE_API]: '' // 举例 '^/api:""' 把路径中的/api字符串删除
