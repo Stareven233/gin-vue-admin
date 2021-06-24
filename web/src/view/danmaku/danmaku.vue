@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="search-term">
-      <el-form :inline="true" :model="searchInfo" class="demo-form-inline">              
+      <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
@@ -29,17 +29,19 @@
       :data="tableData"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" />
+      <el-table-column type="selection" width="40" />
       <el-table-column label="日期" width="180">
         <template slot-scope="scope">{{ scope.row.CreatedAt|formatDate }}</template>
       </el-table-column>
-      <el-table-column label="日期" prop="date" width="120" /> 
-      <el-table-column label="视频时间" prop="time" width="120" /> 
-      <el-table-column label="内容" prop="text" width="120" /> 
-      <el-table-column label="颜色" prop="color" width="120" /> 
-      <el-table-column label="类型" prop="type" width="120" /> 
-      <el-table-column label="发布者id" prop="authorId" width="120" /> 
-      <el-table-column label="视频id" prop="videoId" width="120" /> <el-table-column label="按钮组">
+      <el-table-column label="发布日期" prop="date" width="120">
+        <template slot-scope="scope">{{ scope.row.date|formatDate2 }}</template>
+      </el-table-column>
+      <el-table-column label="视频时间" prop="time" width="120" />
+      <el-table-column label="内容" prop="text" width="240" />
+      <el-table-column label="颜色" prop="color" width="120" />
+      <el-table-column label="类型" prop="type" width="60" />
+      <el-table-column label="发布者" prop="authorId" width="80" />
+      <el-table-column label="视频" prop="videoId" width="80" /> <el-table-column label="按钮组">
         <template slot-scope="scope">
           <el-button size="small" type="primary" icon="el-icon-edit" class="table-button" @click="updateDanmaku(scope.row)">变更</el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteRow(scope.row)">删除</el-button>
@@ -59,34 +61,34 @@
     <el-dialog :before-close="closeDialog" :visible.sync="dialogFormVisible" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
         <el-form-item label="日期:">
-      
-          <el-date-picker type="date" placeholder="选择日期" v-model="formData.date" clearable />
-       </el-form-item>
+
+          <el-date-picker v-model="formData.date" type="date" placeholder="选择日期" clearable />
+        </el-form-item>
         <el-form-item label="视频时间:">
-      
+
           <el-input-number v-model="formData.time" :precision="2" clearable />
-       </el-form-item>
+        </el-form-item>
         <el-form-item label="内容:">
-      
+
           <el-input v-model="formData.text" clearable placeholder="请输入" />
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="颜色:">
-      
+
           <el-input v-model.number="formData.color" clearable placeholder="请输入" />
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="类型:">
-      
+
           <el-input v-model.number="formData.type" clearable placeholder="请输入" />
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="发布者id:">
-      
+
           <el-input v-model.number="formData.authorId" clearable placeholder="请输入" />
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="视频id:">
-      
+
           <el-input v-model.number="formData.videoId" clearable placeholder="请输入" />
-      </el-form-item>
-     </el-form>
+        </el-form-item>
+      </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="closeDialog">取 消</el-button>
         <el-button type="primary" @click="enterDialog">确 定</el-button>
@@ -108,32 +110,19 @@ import { formatTimeToStr } from '@/utils/date'
 import infoList from '@/mixins/infoList'
 export default {
   name: 'Danmaku',
-  mixins: [infoList],
-  data() {
-    return {
-      listApi: getDanmakuList,
-      dialogFormVisible: false,
-      type: '',
-      deleteVisible: false,
-      multipleSelection: [],
-      
-      formData: {
-        date: new Date(),
-          time: 0,
-          text: '',
-          color: 0,
-          type: 0,
-          authorId: 0,
-          videoId: 0,
-          
-      }
-    }
-  },
   filters: {
     formatDate: function(time) {
       if (time !== null && time !== '') {
-        var date = new Date(time);
-        return formatTimeToStr(date, 'yyyy-MM-dd hh:mm:ss');
+        var date = new Date(time)
+        return formatTimeToStr(date, 'yyyy-MM-dd hh:mm:ss')
+      } else {
+        return ''
+      }
+    },
+    formatDate2: function(time) {
+      if (time !== null && time !== '') {
+        var date = new Date(time)
+        return formatTimeToStr(date, 'yyyy-MM-dd')
       } else {
         return ''
       }
@@ -146,15 +135,35 @@ export default {
       }
     }
   },
+  mixins: [infoList],
+  data() {
+    return {
+      listApi: getDanmakuList,
+      dialogFormVisible: false,
+      type: '',
+      deleteVisible: false,
+      multipleSelection: [],
+
+      formData: {
+        date: new Date(),
+        time: 0,
+        text: '',
+        color: 0,
+        type: 0,
+        authorId: 0,
+        videoId: 0
+
+      }
+    }
+  },
   async created() {
     await this.getTableData()
-    
   },
   methods: {
   // 条件搜索前端看此方法
     onSubmit() {
       this.page = 1
-      this.pageSize = 10       
+      this.pageSize = 10
       this.getTableData()
     },
     handleSelectionChange(val) {
@@ -207,13 +216,13 @@ export default {
       this.dialogFormVisible = false
       this.formData = {
         date: new Date(),
-          time: 0,
-          text: '',
-          color: 0,
-          type: 0,
-          authorId: 0,
-          videoId: 0,
-          
+        time: 0,
+        text: '',
+        color: 0,
+        type: 0,
+        authorId: 0,
+        videoId: 0
+
       }
     },
     async deleteDanmaku(row) {
@@ -223,7 +232,7 @@ export default {
           type: 'success',
           message: '删除成功'
         })
-        if (this.tableData.length === 1 && this.page > 1 ) {
+        if (this.tableData.length === 1 && this.page > 1) {
           this.page--
         }
         this.getTableData()
@@ -232,10 +241,10 @@ export default {
     async enterDialog() {
       let res
       switch (this.type) {
-        case "create":
+        case 'create':
           res = await createDanmaku(this.formData)
           break
-        case "update":
+        case 'update':
           res = await updateDanmaku(this.formData)
           break
         default:
@@ -255,9 +264,12 @@ export default {
       this.type = 'create'
       this.dialogFormVisible = true
     }
-  },
+  }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+  .el-table .el-button {
+    margin: 3px 4px;
+  }
 </style>

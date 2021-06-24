@@ -8,7 +8,7 @@ const config ={
 
     appName : 'Cyakka-Admin',
 
-    appLogo : 'https://blog-static.cnblogs.com/files/Stareven233/cyakka.ico'
+    appLogo : 'https://blog-static.cnblogs.com/files/Stareven233/kuro.ico'
 
 }
 

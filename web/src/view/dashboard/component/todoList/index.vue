@@ -47,9 +47,11 @@ const filters = {
   completed: todos => todos.filter(todo => todo.done)
 }
 const defaultList = [
-  { text: '工作流功能绘制工具', done: false },
-  { text: '工作流流转方法', done: false },
-  { text: '自动化代码优化', done: false }
+  { text: '日常维护数据库', done: true },
+  { text: '改进评论存储格式', done: true },
+  { text: '完成用户信息更新', done: false },
+  { text: '增加用户关注功能', done: false },
+  { text: '增加多点登录功能', done: false }
 ]
 export default {
   components: { Todo },

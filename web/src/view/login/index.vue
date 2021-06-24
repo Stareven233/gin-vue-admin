@@ -49,14 +49,14 @@
           </el-form-item>
           <div />
           <el-form-item>
-            <el-button
+            <!-- <el-button
               type="primary"
               style="width: 46%"
               @click="checkInit"
-            >前往初始化</el-button>
+            >前往初始化</el-button> -->
             <el-button
               type="primary"
-              style="width: 46%;margin-left:8%"
+              style="width: 46%;margin-left:28%"
               @click="submitForm"
             >登 录</el-button>
           </el-form-item>

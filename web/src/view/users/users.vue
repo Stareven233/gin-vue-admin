@@ -32,20 +32,24 @@
       :data="tableData"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" />
+      <el-table-column type="selection" width="40" />
       <el-table-column label="日期" width="180">
         <template slot-scope="scope">{{ scope.row.CreatedAt|formatDate }}</template>
       </el-table-column>
-      <el-table-column label="用户名" prop="username" width="120" />
-      <el-table-column label="密码" prop="password" width="120" />
-      <el-table-column label="邮箱" prop="email" width="120" />
-      <el-table-column label="用户头像" prop="avatar" width="120" />
+      <el-table-column label="用户名" prop="username" width="80" />
+      <el-table-column label="密码" prop="password" width="60" />
+      <el-table-column label="邮箱" prop="email" width="130" />
+      <el-table-column label="头像" prop="avatar" width="70" />
       <el-table-column label="昵称" prop="nickname" width="120" />
       <el-table-column label="用户简介" prop="aboutMe" width="120" />
-      <el-table-column label="注册时间" prop="memberSince" width="120" />
-      <el-table-column label="最近登录" prop="lastSeen" width="120" />
-      <el-table-column label="权限" prop="permissions" width="120" />
-      <el-table-column label="硬币" prop="coins" width="120" /> <el-table-column label="按钮组">
+      <el-table-column label="注册时间" prop="memberSince" width="100">
+        <template slot-scope="scope">{{ scope.row.memberSince|formatDate2 }}</template>
+      </el-table-column>
+      <el-table-column label="最近登录" prop="lastSeen" width="100">
+        <template slot-scope="scope">{{ scope.row.lastSeen|formatDate3 }}</template>
+      </el-table-column>
+      <el-table-column label="权限" prop="permissions" width="60" />
+      <el-table-column label="硬币" prop="coins" width="60" /> <el-table-column label="按钮组">
         <template slot-scope="scope">
           <el-button size="small" type="primary" icon="el-icon-edit" class="table-button" @click="updateUsers(scope.row)">变更</el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteRow(scope.row)">删除</el-button>
@@ -76,7 +80,7 @@
 
           <el-input v-model="formData.email" clearable placeholder="请输入" />
         </el-form-item>
-        <el-form-item label="用户头像:">
+        <el-form-item label="头像:">
 
           <el-input v-model="formData.avatar" clearable placeholder="请输入" />
         </el-form-item>
@@ -131,6 +135,22 @@ export default {
       if (time !== null && time !== '') {
         var date = new Date(time)
         return formatTimeToStr(date, 'yyyy-MM-dd hh:mm:ss')
+      } else {
+        return ''
+      }
+    },
+    formatDate2: function(time) {
+      if (time !== null && time !== '') {
+        var date = new Date(time)
+        return formatTimeToStr(date, 'yyyy-MM-dd')
+      } else {
+        return ''
+      }
+    },
+    formatDate3: function(time) {
+      if (time !== null && time !== '') {
+        var date = new Date(time)
+        return formatTimeToStr(date, 'MM-dd hh:mm')
       } else {
         return ''
       }
@@ -282,5 +302,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+  .el-table .el-button {
+    margin: 3px 2px;
+  }
 </style>
+

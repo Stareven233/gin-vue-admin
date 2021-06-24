@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="search-term">
-      <el-form :inline="true" :model="searchInfo" class="demo-form-inline">              
+      <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
@@ -29,20 +29,22 @@
       :data="tableData"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" />
+      <el-table-column type="selection" width="40" />
       <el-table-column label="日期" width="180">
         <template slot-scope="scope">{{ scope.row.CreatedAt|formatDate }}</template>
       </el-table-column>
-      <el-table-column label="内容" prop="body" width="120" /> 
-      <el-table-column label="日期" prop="date" width="120" /> 
-      <el-table-column label="屏蔽" prop="disabled" width="120">
-        <template slot-scope="scope">{{scope.row.disabled|formatBoolean}}</template>
+      <el-table-column label="内容" prop="body" width="320" />
+      <el-table-column label="发布日期" prop="date" width="120">
+        <template slot-scope="scope">{{ scope.row.date|formatDate2 }}</template>
       </el-table-column>
-      <el-table-column label="发布者id" prop="authorId" width="120" /> 
-      <el-table-column label="视频id" prop="videoId" width="120" /> 
-      <el-table-column label="举报者id" prop="tipUser" width="120" /> 
-      <el-table-column label="被举报" prop="tipped" width="120">
-        <template slot-scope="scope">{{scope.row.tipped|formatBoolean}}</template>
+      <el-table-column label="屏蔽" prop="disabled" width="80">
+        <template slot-scope="scope">{{ scope.row.disabled|formatBoolean }}</template>
+      </el-table-column>
+      <el-table-column label="发布者" prop="authorId" width="80" />
+      <el-table-column label="视频" prop="videoId" width="80" />
+      <el-table-column label="举报者" prop="tipUser" width="80" />
+      <el-table-column label="被举报" prop="tipped" width="80">
+        <template slot-scope="scope">{{ scope.row.tipped|formatBoolean }}</template>
       </el-table-column><el-table-column label="按钮组">
         <template slot-scope="scope">
           <el-button size="small" type="primary" icon="el-icon-edit" class="table-button" @click="updateComment(scope.row)">变更</el-button>
@@ -63,34 +65,34 @@
     <el-dialog :before-close="closeDialog" :visible.sync="dialogFormVisible" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
         <el-form-item label="内容:">
-      
+
           <el-input v-model="formData.body" clearable placeholder="请输入" />
-      </el-form-item>
-        <el-form-item label="日期:">
-      
-          <el-date-picker type="date" placeholder="选择日期" v-model="formData.date" clearable />
-       </el-form-item>
+        </el-form-item>
+        <el-form-item label="发布日期:">
+
+          <el-date-picker v-model="formData.date" type="date" placeholder="选择日期" clearable />
+        </el-form-item>
         <el-form-item label="屏蔽:">
-      
-          <el-switch active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" v-model="formData.disabled" clearable ></el-switch>
-      </el-form-item>
-        <el-form-item label="发布者id:">
-      
+
+          <el-switch v-model="formData.disabled" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
+        </el-form-item>
+        <el-form-item label="发布者">
+
           <el-input v-model.number="formData.authorId" clearable placeholder="请输入" />
-      </el-form-item>
-        <el-form-item label="视频id:">
-      
+        </el-form-item>
+        <el-form-item label="视频">
+
           <el-input v-model.number="formData.videoId" clearable placeholder="请输入" />
-      </el-form-item>
-        <el-form-item label="举报者id:">
-      
+        </el-form-item>
+        <el-form-item label="举报者">
+
           <el-input v-model.number="formData.tipUser" clearable placeholder="请输入" />
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="被举报:">
-      
-          <el-switch active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" v-model="formData.tipped" clearable ></el-switch>
-      </el-form-item>
-     </el-form>
+
+          <el-switch v-model="formData.tipped" active-color="#13ce66" inactive-color="#ff4949" active-text="是" inactive-text="否" clearable />
+        </el-form-item>
+      </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="closeDialog">取 消</el-button>
         <el-button type="primary" @click="enterDialog">确 定</el-button>
@@ -112,32 +114,19 @@ import { formatTimeToStr } from '@/utils/date'
 import infoList from '@/mixins/infoList'
 export default {
   name: 'Comment',
-  mixins: [infoList],
-  data() {
-    return {
-      listApi: getCommentList,
-      dialogFormVisible: false,
-      type: '',
-      deleteVisible: false,
-      multipleSelection: [],
-      
-      formData: {
-        body: '',
-          date: new Date(),
-          disabled: false,
-          authorId: 0,
-          videoId: 0,
-          tipUser: 0,
-          tipped: false,
-          
-      }
-    }
-  },
   filters: {
     formatDate: function(time) {
       if (time !== null && time !== '') {
-        var date = new Date(time);
-        return formatTimeToStr(date, 'yyyy-MM-dd hh:mm:ss');
+        var date = new Date(time)
+        return formatTimeToStr(date, 'yyyy-MM-dd hh:mm:ss')
+      } else {
+        return ''
+      }
+    },
+    formatDate2: function(time) {
+      if (time !== null && time !== '') {
+        var date = new Date(time)
+        return formatTimeToStr(date, 'yyyy-MM-dd')
       } else {
         return ''
       }
@@ -150,21 +139,41 @@ export default {
       }
     }
   },
+  mixins: [infoList],
+  data() {
+    return {
+      listApi: getCommentList,
+      dialogFormVisible: false,
+      type: '',
+      deleteVisible: false,
+      multipleSelection: [],
+
+      formData: {
+        body: '',
+        date: new Date(),
+        disabled: false,
+        authorId: 0,
+        videoId: 0,
+        tipUser: 0,
+        tipped: false
+
+      }
+    }
+  },
   async created() {
     await this.getTableData()
-    
   },
   methods: {
   // 条件搜索前端看此方法
     onSubmit() {
       this.page = 1
-      this.pageSize = 10  
-      if (this.searchInfo.disabled === ""){
-        this.searchInfo.disabled=null
-      }     
-      if (this.searchInfo.tipped === ""){
-        this.searchInfo.tipped=null
-      }  
+      this.pageSize = 10
+      if (this.searchInfo.disabled === '') {
+        this.searchInfo.disabled = null
+      }
+      if (this.searchInfo.tipped === '') {
+        this.searchInfo.tipped = null
+      }
       this.getTableData()
     },
     handleSelectionChange(val) {
@@ -217,13 +226,13 @@ export default {
       this.dialogFormVisible = false
       this.formData = {
         body: '',
-          date: new Date(),
-          disabled: false,
-          authorId: 0,
-          videoId: 0,
-          tipUser: 0,
-          tipped: false,
-          
+        date: new Date(),
+        disabled: false,
+        authorId: 0,
+        videoId: 0,
+        tipUser: 0,
+        tipped: false
+
       }
     },
     async deleteComment(row) {
@@ -233,7 +242,7 @@ export default {
           type: 'success',
           message: '删除成功'
         })
-        if (this.tableData.length === 1 && this.page > 1 ) {
+        if (this.tableData.length === 1 && this.page > 1) {
           this.page--
         }
         this.getTableData()
@@ -242,10 +251,10 @@ export default {
     async enterDialog() {
       let res
       switch (this.type) {
-        case "create":
+        case 'create':
           res = await createComment(this.formData)
           break
-        case "update":
+        case 'update':
           res = await updateComment(this.formData)
           break
         default:
@@ -265,9 +274,12 @@ export default {
       this.type = 'create'
       this.dialogFormVisible = true
     }
-  },
+  }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+  .el-table .el-button {
+    margin: 3px 4px;
+  }
 </style>

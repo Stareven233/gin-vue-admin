@@ -19,13 +19,13 @@
                   <i class="el-icon-user" />{{ userInfo.nickName }}
                 </li>
                 <li>
-                  <i class="el-icon-data-analysis" />北京反转极光科技有限公司-技术部-前端事业群
+                  <i class="el-icon-data-analysis" />福州大学数计学院计算机5班
                 </li>
                 <li>
-                  <i class="el-icon-video-camera-solid" />中国·北京市·朝阳区
+                  <i class="el-icon-video-camera-solid" />中国·福建省·福州市
                 </li>
                 <li>
-                  <i class="el-icon-medal-1" />goLang/JavaScript/Vue/Gorm
+                  <i class="el-icon-medal-1" />Go / Gorm / JS / Vue
                 </li>
               </ul>
             </div>
@@ -47,15 +47,8 @@
                 <li>
                   <p class="title">密保邮箱</p>
                   <p class="desc">
-                    已绑定邮箱：gin-vue-admin@google.com.cn
+                    已绑定邮箱：cyakka-admin@noe.cc
                     <a href="#">立即修改</a>
-                  </p>
-                </li>
-                <li>
-                  <p class="title">密保问题</p>
-                  <p class="desc">
-                    未设置密保问题
-                    <a href="#">去设置</a>
                   </p>
                 </li>
                 <li>

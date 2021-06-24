@@ -3,8 +3,8 @@
     <div class="search-term">
       <el-form :inline="true" :model="searchInfo" class="demo-form-inline">
         <el-form-item label="标题">
-          <el-input placeholder="搜索条件" v-model="searchInfo.title" />
-        </el-form-item>                          
+          <el-input v-model="searchInfo.title" placeholder="搜索条件" />
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
@@ -32,22 +32,24 @@
       :data="tableData"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" />
-      <el-table-column label="日期" width="180">
+      <el-table-column type="selection" width="40" />
+      <el-table-column label="日期" width="160">
         <template slot-scope="scope">{{ scope.row.CreatedAt|formatDate }}</template>
       </el-table-column>
-      <el-table-column label="标题" prop="title" width="120" />
-      <el-table-column label="文件路径" prop="file" width="120" />
-      <el-table-column label="发布日期" prop="date" width="120" />
-      <el-table-column label="作者id" prop="authorId" width="120" />
-      <el-table-column label="类型" prop="type" width="120" />
-      <el-table-column label="封面" prop="face" width="120" />
+      <el-table-column label="标题" prop="title" width="140" />
+      <el-table-column label="文件路径" prop="file" width="100" />
+      <el-table-column label="发布日期" prop="date" width="100">
+        <template slot-scope="scope">{{ scope.row.date|formatDate2 }}</template>
+      </el-table-column>
+      <el-table-column label="作者" prop="authorId" width="50" />
+      <el-table-column label="类型" prop="type" width="50" />
+      <el-table-column label="封面" prop="face" width="100" />
       <el-table-column label="简介" prop="desc" width="120" />
-      <el-table-column label="硬币数" prop="coin" width="120" />
-      <el-table-column label="收藏数" prop="collect" width="120" />
-      <el-table-column label="点赞数" prop="like" width="120" />
-      <el-table-column label="审核状态" prop="status" width="120" />
-      <el-table-column label="审核者" prop="inspector" width="120" /> <el-table-column label="按钮组">
+      <el-table-column label="硬币数" prop="coin" width="70" />
+      <el-table-column label="收藏数" prop="collect" width="70" />
+      <el-table-column label="点赞数" prop="like" width="70" />
+      <el-table-column label="状态" prop="status" width="50" />
+      <el-table-column label="审核" prop="inspector" width="50" /> <el-table-column label="按钮组">
         <template slot-scope="scope">
           <el-button size="small" type="primary" icon="el-icon-edit" class="table-button" @click="updateVideo(scope.row)">变更</el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteRow(scope.row)">删除</el-button>
@@ -67,54 +69,54 @@
     <el-dialog :before-close="closeDialog" :visible.sync="dialogFormVisible" title="弹窗操作">
       <el-form :model="formData" label-position="right" label-width="80px">
         <el-form-item label="标题:">
-      
+
           <el-input v-model="formData.title" clearable placeholder="请输入" />
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="文件路径:">
-      
+
           <el-input v-model="formData.file" clearable placeholder="请输入" />
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="发布日期:">
-      
-          <el-date-picker type="date" placeholder="选择日期" v-model="formData.date" clearable />
-       </el-form-item>
+
+          <el-date-picker v-model="formData.date" type="date" placeholder="选择日期" clearable />
+        </el-form-item>
         <el-form-item label="作者id:">
-      
+
           <el-input v-model.number="formData.authorId" clearable placeholder="请输入" />
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="类型:">
-      
+
           <el-input v-model.number="formData.type" clearable placeholder="请输入" />
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="封面:">
-      
+
           <el-input v-model="formData.face" clearable placeholder="请输入" />
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="简介:">
-      
+
           <el-input v-model="formData.desc" clearable placeholder="请输入" />
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="硬币数:">
-      
+
           <el-input v-model.number="formData.coin" clearable placeholder="请输入" />
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="收藏数:">
-      
+
           <el-input v-model.number="formData.collect" clearable placeholder="请输入" />
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="点赞数:">
-      
+
           <el-input v-model.number="formData.like" clearable placeholder="请输入" />
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="审核状态:">
-      
+
           <el-input v-model.number="formData.status" clearable placeholder="请输入" />
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="审核者:">
-      
+
           <el-input v-model.number="formData.inspector" clearable placeholder="请输入" />
-      </el-form-item>
-     </el-form>
+        </el-form-item>
+      </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="closeDialog">取 消</el-button>
         <el-button type="primary" @click="enterDialog">确 定</el-button>
@@ -136,37 +138,19 @@ import { formatTimeToStr } from '@/utils/date'
 import infoList from '@/mixins/infoList'
 export default {
   name: 'Video',
-  mixins: [infoList],
-  data() {
-    return {
-      listApi: getVideoList,
-      dialogFormVisible: false,
-      type: '',
-      deleteVisible: false,
-      multipleSelection: [],
-      
-      formData: {
-        title: '',
-          file: '',
-          date: new Date(),
-          authorId: 0,
-          type: 0,
-          face: '',
-          desc: '',
-          coin: 0,
-          collect: 0,
-          like: 0,
-          status: 0,
-          inspector: 0,
-          
-      }
-    }
-  },
   filters: {
     formatDate: function(time) {
       if (time !== null && time !== '') {
-        var date = new Date(time);
-        return formatTimeToStr(date, 'yyyy-MM-dd hh:mm:ss');
+        var date = new Date(time)
+        return formatTimeToStr(date, 'yyyy-MM-dd hh:mm:ss')
+      } else {
+        return ''
+      }
+    },
+    formatDate2: function(time) {
+      if (time !== null && time !== '') {
+        var date = new Date(time)
+        return formatTimeToStr(date, 'yyyy-MM-dd')
       } else {
         return ''
       }
@@ -179,15 +163,40 @@ export default {
       }
     }
   },
+  mixins: [infoList],
+  data() {
+    return {
+      listApi: getVideoList,
+      dialogFormVisible: false,
+      type: '',
+      deleteVisible: false,
+      multipleSelection: [],
+
+      formData: {
+        title: '',
+        file: '',
+        date: new Date(),
+        authorId: 0,
+        type: 0,
+        face: '',
+        desc: '',
+        coin: 0,
+        collect: 0,
+        like: 0,
+        status: 0,
+        inspector: 0
+
+      }
+    }
+  },
   async created() {
     await this.getTableData()
-    
   },
   methods: {
   // 条件搜索前端看此方法
     onSubmit() {
       this.page = 1
-      this.pageSize = 10            
+      this.pageSize = 10
       this.getTableData()
     },
     handleSelectionChange(val) {
@@ -240,18 +249,18 @@ export default {
       this.dialogFormVisible = false
       this.formData = {
         title: '',
-          file: '',
-          date: new Date(),
-          authorId: 0,
-          type: 0,
-          face: '',
-          desc: '',
-          coin: 0,
-          collect: 0,
-          like: 0,
-          status: 0,
-          inspector: 0,
-          
+        file: '',
+        date: new Date(),
+        authorId: 0,
+        type: 0,
+        face: '',
+        desc: '',
+        coin: 0,
+        collect: 0,
+        like: 0,
+        status: 0,
+        inspector: 0
+
       }
     },
     async deleteVideo(row) {
@@ -261,7 +270,7 @@ export default {
           type: 'success',
           message: '删除成功'
         })
-        if (this.tableData.length === 1 && this.page > 1 ) {
+        if (this.tableData.length === 1 && this.page > 1) {
           this.page--
         }
         this.getTableData()
@@ -270,10 +279,10 @@ export default {
     async enterDialog() {
       let res
       switch (this.type) {
-        case "create":
+        case 'create':
           res = await createVideo(this.formData)
           break
-        case "update":
+        case 'update':
           res = await updateVideo(this.formData)
           break
         default:
@@ -293,9 +302,12 @@ export default {
       this.type = 'create'
       this.dialogFormVisible = true
     }
-  },
+  }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+  .el-table .el-button {
+    margin: 3px 2px;
+  }
 </style>

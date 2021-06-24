@@ -1,13 +1,12 @@
 package main
 
-// todo 剩下的表建立相应关联
 // todo 删删改改交作业
 // todo 如果真的有时间再写cyakka的api并写页面
 // 其中api几乎都跟后台的不同，感觉后台其实没什么屌用，还搞得exe很大
 // todo 没开cors中间件也没有跨域问题
 // gorm comment会占用size长度
 // gorm association返回的对象只可读取一次，即count完再find就没数据了
-// 介绍preload连续调用及效果
+// 介绍preload连续调用及效果，提及related已被移除
 
 import (
 	"gin-vue-admin/core"
