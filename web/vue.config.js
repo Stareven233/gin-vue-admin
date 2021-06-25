@@ -15,6 +15,7 @@ module.exports = {
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
+    // 巨坑，应该是只在开发环境下有用，当部署时需要自己用nginx去掉/api代理
     port: process.env.VUE_APP_CLI_PORT,
     open: true,
     overlay: {
