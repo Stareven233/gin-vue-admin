@@ -13,10 +13,10 @@
                 </el-col>
                 <el-col :xs="20" :lg="12" :md="12">
                   <div class="text">
-                    <h4>早安，今天也是充满爆肝的一天</h4>
+                    <h4>下午好，今天也要努力工作</h4>
                     <p class="tips-text">
                       <i class="el-icon-sunny el-icon" />
-                      <span>今日多云，26℃ - 38℃，天气多变，出门记得带伞。</span>
+                      <span>今日多云，26℃ - 31℃，天气多变，出门记得带伞。</span>
                     </p>
                   </div>
                 </el-col>

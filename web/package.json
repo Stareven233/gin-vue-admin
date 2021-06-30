@@ -1,9 +1,9 @@
 {
   "name": "gin-vue-admin",
-  "version": "0.1.0",
+  "version": "0.2.2",
   "private": true,
   "scripts": {
-    "serve": "node openDocument.js && vue-cli-service serve",
+    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },

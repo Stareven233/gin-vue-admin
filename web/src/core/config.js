@@ -2,13 +2,11 @@
 * 网站配置文件
 * */
 
+const config = {
 
+  appName: 'Cyakka-Admin',
 
-const config ={
-
-    appName : 'Cyakka-Admin',
-
-    appLogo : 'https://blog-static.cnblogs.com/files/Stareven233/kuro.ico'
+  appLogo: 'https://blog-static.cnblogs.com/files/Stareven233/kuro.ico'
 
 }
 

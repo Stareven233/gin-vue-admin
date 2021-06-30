@@ -3,7 +3,8 @@
     <div class="login_panle">
       <div class="login_panle_form">
         <div class="login_panle_form_title">
-          <img class="login_panle_form_title_logo" :src="$GIN_VUE_ADMIN.appLogo" alt=""><p class="login_panle_form_title_p">{{ $GIN_VUE_ADMIN.appName }}</p>
+          <img class="login_panle_form_title_logo"><p class="login_panle_form_title_p">{{ $GIN_VUE_ADMIN.appName }}</p>
+
         </div>
         <el-form
           ref="loginForm"
@@ -16,7 +17,7 @@
               <i slot="suffix" class="el-input__icon el-icon-user" />
             </el-input>
           </el-form-item>
-          <el-form-item prop="password">
+          <el-form-item prop="password" date-default-pw="123456">
             <el-input
               v-model="loginForm.password"
               :type="lock === 'lock' ? 'password' : 'text'"
@@ -51,9 +52,9 @@
           <el-form-item>
             <el-button
               type="primary"
-              style="width: 46%;margin-left:28%"
+              style="width: 100%;margin-left:0%"
               @click="submitForm"
-            >登 录</el-button>
+            >登 录 账 号</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -87,7 +88,7 @@ export default {
       lock: 'lock',
       loginForm: {
         username: 'admin',
-        password: '123456',
+        password: '',
         captcha: '',
         captchaId: ''
       },
